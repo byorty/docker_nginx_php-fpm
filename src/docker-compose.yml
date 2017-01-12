@@ -1,0 +1,22 @@
+version: "2"
+
+services:
+  nginx:
+    build:
+      context: ./nginx/
+      args:
+       - DOMAIN=example.com
+    ports:
+      - "8080:80"
+    volumes:
+      - ~/projects/example.com:/app
+      - ~/log/nginx:/var/log/nginx
+    links:
+      - "php-fpm"
+  php-fpm:
+    build: ./php-fpm/
+    ports:
+      - "9000:9000"
+    volumes:
+      - ~/projects/example.com:/app
+      - ~/log/php:/var/log/php
